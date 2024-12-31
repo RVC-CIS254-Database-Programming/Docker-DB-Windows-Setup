@@ -1,0 +1,45 @@
+services:
+    oracle:
+        container_name: oracle_db
+        image: container-registry.oracle.com/database/express:21.3.0-xe
+        deploy:
+          resources:
+            limits:
+              cpus: '0.50'
+              memory: 2G
+        ports:
+            - "11521:1521"
+            - "15500:5500"
+        volumes:
+            - oradata:/opt/oracle/oradata
+        environment:
+            ORACLE_PWD: ${ORACLE_PWD}
+            ORACLE_CHARACTERSET: ${ORACLE_CHARACTERSET}
+    sqlserver:
+        container_name: sqlserver_db
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        deploy:
+          resources:
+            limits:
+              cpus: '0.50'
+              memory: 2G
+        ports:  
+          - "15433:1433"
+        environment:
+            ACCEPT_EULA: ${ACCEPT_EULA}
+            MSSQL_PID: ${MSSQL_PID}
+            MSSQL_DATA_DIR: ${MSSQL_DATA_DIR}
+            MSSQL_LOG_DIR: ${MSSQL_LOG_DIR}
+            MSSQL_BACKUP_DIR: ${MSSQL_BACKUP_DIR}
+            MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD}
+        volumes: 
+          - sqlsystem:${MSSQL_DIR}
+          - sqldata:${MSSQL_DATA_DIR}
+          - sqllog:${MSSQL_LOG_DIR}
+          - sqlbackup:${MSSQL_BACKUP_DIR}
+volumes:
+  oradata:
+  sqlsystem:
+  sqldata:
+  sqllog:
+  sqlbackup:

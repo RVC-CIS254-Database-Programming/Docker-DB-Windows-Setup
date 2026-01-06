@@ -14,6 +14,18 @@ To use this repository, make sure you:
 - Basic PowerShell Knowledge: Ability to Run a PowerShell Command Window as Administrator and execute simple commands.
 - Basic Docker Knowledge: Familiarity with Docker commands and concepts will be helpful but is not required.
 
+## Memory requirements
+
+- Docker Desktop on Windows may have a default limit of 2GB.  If trying to run the docker-compose command for SQLServer and the container is not started.  Drill into the container details.  If the container details show that the container does not have enough memory, you may receive the following message: "sqlservr: This program requires a machine with at least 2000 megabytes of memory".
+- If you encounter this message, use the following steps to resolve: 
+  - Shut down Docker Desktop.
+  - Run PowerShell as an administrator.
+  - Shutdown WSL2 by issuing the following command: wsl --shutdown
+  - Create a file named .wslconfig in your c:\users\\\<user> folder.  This file should contain the following:
+  [wsl2]
+    memory=4GB; 
+  - Start Docker Desktop.    
+
 ## What You'll Find in This Repository
 
 - docker-compose.yml: Defines services for SQL Server and Oracle Database containers.
@@ -27,7 +39,7 @@ Let’s get started and get our database containers created! 🚀
 - Open a PowerShell Window as Administrator.
 - Navigate to the cloned repository directory using the "cd", change directory command.
 - Execute the "docker-compose up -d" command.
-- View the created containers under the "Containers" option in Docker Desktop.
+- View the created containers under the "Containers" option in Docker Desktop.  
 - In PowerShell, execute the command "docker container ls" to show some brief information for the containers.  Locate the Container ID for the SQL Server Container.
   
   ![Container List](images/docker-container-ls.png)
